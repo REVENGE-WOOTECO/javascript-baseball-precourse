@@ -17,8 +17,8 @@
 
 ## 기능 요구사항
 
-- [ ] 게임 시작 : 상대방(컴퓨터)가 1~9 중 서로 다른 임의의 수 3개 선택
-- [ ] 사용자 숫자 입력 : 입력창에 3자리 수 입력
+- [x] 게임 시작 : 상대방(컴퓨터)가 1~9 중 서로 다른 임의의 수 3개 선택
+- [x] 사용자 숫자 입력 : 입력창에 3자리 수 입력
 - [ ] 확인 버튼 클릭 : 사용자가 입력한 숫자와 상대방의 숫자와 비교하여 힌트 출력
 - [ ] 종료 조건 (3스트라이크) 충족 : 게임 종료 문구 및 재시작 버튼 출력
 - [ ] 재시작 버튼 클릭 : 게임 재시작
@@ -26,14 +26,15 @@
 
 ## 프로그래밍 요구사항
 
-- [ ] play(computerRandNum, userInputNum) 메서드 생성
+- [x] play(computerRandNum, userInputNum) 메서드 생성
 - Args
   - computerRandNum (Number) : 컴퓨터의 랜덤 값
   - userInputNum (Number) : 유저 입력 값
 - Returns
+
   - hint (String) : 힌트 (볼을 먼저쓰고 스트라이크를 뒤에 쓴다)
 
-→ index.js에서 아래의 function 또는 class 형태로 작성
+- [x] index.js에서 아래의 function 또는 class 형태로 작성
 
 ### 코딩/구현
 
@@ -64,6 +65,6 @@
 - [x] javascript-baseball-precourse 저장소를 Fork/Clone해 시작
 - Fork 주소명 : https://github.com/snowman95/javascript-baseball-precourse-1
 - [x] 기능을 구현하기 전에 javascript-baseball-precourse/docs/README.md 파일에 구현할 기능 목록을 정리해 추가
-- [ ] Git의 커밋 단위는 앞 단계에서 README.md 파일에 정리한 기능 목록 단위로 추가
+- [x] Git의 커밋 단위는 앞 단계에서 README.md 파일에 정리한 기능 목록 단위로 추가
 - AngularJS Commit Message Conventions 참고
 - [ ] 테스트 실행 통과

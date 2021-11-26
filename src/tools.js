@@ -34,3 +34,21 @@ export const match = (standard, numArr) => {
 
   return { matchInclude, matchExact };
 };
+
+export function showGameResult(hint, resultDiv, restartBtn) {
+  // hint에 따라 알맞은 결과 보여줌
+  // Args :
+  //     hint (Strings) : 기준 값
+  //     resultDiv (HTML div) : 게임 결과 div element
+  //     restartBtn (HTML button) : 게임 재시작 버튼 element
+  if (hint === "3스트라이크") {
+    resultDiv.innerHTML = `
+      🎉 <b>정답을 맞추셨습니다!</b> 🎉
+      <br>
+      게임을 새로 시작하시겠습니까?
+    `;
+    resultDiv.appendChild(restartBtn);
+  } else {
+    resultDiv.innerHTML = hint;
+  }
+}

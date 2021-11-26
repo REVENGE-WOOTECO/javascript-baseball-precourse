@@ -1,31 +1,42 @@
-import { createRandNum, numToListOfNum, match } from "./tools.js";
+import {
+  createRandNum,
+  numToListOfNum,
+  match,
+  showGameResult,
+} from "./tools.js";
 
-const inputElement = document.querySelector("#user-input");
+const inputText = document.querySelector("#user-input");
 const submitButton = document.querySelector("#submit");
-const resultText = document.querySelector("#result");
+const resultDiv = document.querySelector("#result");
+const restartButton = document.createElement("button");
 
-let randomNum = [];
+restartButton.innerHTML = "게임 재시작";
+restartButton.id = "game-restart-button";
 
 export default function BaseballGame() {
-  this.gameStart = function () {
+  let randomNum = [];
+
+  this.start = function () {
     // 게임 초기화 및 시작
+    inputText.value = "";
+    resultDiv.innerHTML = "";
     randomNum = createRandNum();
-    console.log("게임시작");
+    console.log(randomNum);
   };
 
-  this.play = (computerRandNum, userInputNum) => {
+  this.play = function (computerRandNum, userInputNum) {
     // 확인 버튼 클릭 : 사용자가 입력한 숫자와 상대방의 숫자와 비교하여 힌트 출력
     // Args :
     //     computerRandNum (Number) : 컴퓨터의 랜덤 값
     //     computerRandNum (Number) : 유저 입력 값
     // Returns :
     //     Strings : 힌트 (볼을 먼저쓰고 스트라이크를 뒤에 쓰기)
-
     const userInput = numToListOfNum(userInputNum);
     const { matchInclude: ball, matchExact: strike } = match(
       computerRandNum,
       userInput
     );
+
     return ball && strike
       ? `${ball}볼${strike}스트라이크`
       : ball
@@ -34,15 +45,21 @@ export default function BaseballGame() {
       ? `${strike}스트라이크`
       : "낫싱";
   };
+
+  // 게임 시작
+  this.start();
+
+  // 버튼 이벤트 설정
+  submitButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    const hint = this.play(randomNum, inputText.value);
+    showGameResult(hint, resultDiv, restartButton);
+  });
+
+  restartButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    this.start();
+  });
 }
 
-const game = new BaseballGame();
-
-// 게임 시작
-game.gameStart();
-
-// 버튼 이벤트 설정
-submitButton.addEventListener("click", (event) => {
-  event.preventDefault();
-  resultText.innerText = game.play(randomNum, inputElement.value);
-});
+new BaseballGame();

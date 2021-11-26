@@ -1,5 +1,9 @@
 import { createRandNum, numToListOfNum, match } from "./tools.js";
 
+const inputElement = document.querySelector("#user-input");
+const submitButton = document.querySelector("#submit");
+const resultText = document.querySelector("#result");
+
 let randomNum = [];
 
 export default function BaseballGame() {
@@ -36,3 +40,9 @@ const game = new BaseballGame();
 
 // 게임 시작
 game.gameStart();
+
+// 버튼 이벤트 설정
+submitButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  resultText.innerText = game.play(randomNum, inputElement.value);
+});

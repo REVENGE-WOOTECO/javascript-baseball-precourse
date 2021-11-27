@@ -15,6 +15,8 @@
 // 정답 화면 및 재시작 버튼 출력
 
 
+ const computerRandomNumber = MissionUtils.Random.pickUniqueNumbersInRange(1, 10, 3).join("");
+
  export default function BaseballGame() {
      this.play = function (computerInputNumbers, userInputNumbers) {
         return

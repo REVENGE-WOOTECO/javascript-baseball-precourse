@@ -1,7 +1,7 @@
 import {
   createRandNum,
   numToListOfNum,
-  match,
+  matchBalls,
   showGameResult,
 } from "./tools.js";
 
@@ -32,18 +32,8 @@ export default function BaseballGame() {
     // Returns :
     //     Strings : 힌트 (볼을 먼저쓰고 스트라이크를 뒤에 쓰기)
     const userInput = numToListOfNum(userInputNum);
-    const { matchInclude: ball, matchExact: strike } = match(
-      computerRandNum,
-      userInput
-    );
-
-    return ball && strike
-      ? `${ball}볼${strike}스트라이크`
-      : ball
-      ? `${ball}볼`
-      : strike
-      ? `${strike}스트라이크`
-      : "낫싱";
+    const message = matchBalls(computerRandNum, userInput);
+    return message;
   };
 
   // 게임 시작
@@ -52,6 +42,7 @@ export default function BaseballGame() {
   // 버튼 이벤트 설정
   submitButton.addEventListener("click", (event) => {
     event.preventDefault();
+
     const hint = this.play(randomNum, inputText.value);
     showGameResult(hint, resultDiv, restartButton);
   });

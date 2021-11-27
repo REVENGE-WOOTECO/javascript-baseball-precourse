@@ -18,21 +18,27 @@ export const numToListOfNum = (num) => {
   return listOfNum;
 };
 
-export const match = (standard, numArr) => {
+export const matchBalls = (standard, numArr) => {
   // standard과 numArr 배열을 비교하여 비교 정보 반환
   // Args :
   //     standard (list Of Number) : 기준 값
   //     numArr (list Of Number) : 기준 값과 비교할 대상
   // Returns :
-  //     matchInclude (Number) : 같은 인덱스가 아니지만, standard 안에 포함되는 개수
-  //     matchExact (Number) : 같은 인덱스 값이 정확이 일치하는 개수
-  const matchInclude = numArr.filter(
+  //     ball (Number) : 같은 인덱스가 아니지만, standard 안에 포함되는 개수
+  //     strike (Number) : 같은 인덱스 값이 정확이 일치하는 개수
+  const ball = numArr.filter(
     (num, idx) => num !== standard[idx] && standard.includes(num)
   ).length;
 
-  const matchExact = numArr.filter((num, idx) => num === standard[idx]).length;
+  const strike = numArr.filter((num, idx) => num === standard[idx]).length;
 
-  return { matchInclude, matchExact };
+  return ball && strike
+    ? `${ball}볼${strike}스트라이크`
+    : ball
+    ? `${ball}볼`
+    : strike
+    ? `${strike}스트라이크`
+    : "낫싱";
 };
 
 export function showGameResult(hint, resultDiv, restartBtn) {

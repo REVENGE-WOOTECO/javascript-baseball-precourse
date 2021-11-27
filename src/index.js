@@ -14,12 +14,34 @@
 // 입력한 세 숫자에 따라 볼, 스트라이크, 낫싱 출력(볼이 스트라이크보다 앞에 출력)
 // 정답 화면 및 재시작 버튼 출력
 
+function gameResultPrint(strikeNum, ballNum){
+    if (ballNum !== 0 && strikeNum !== 0) {
+        return `${ballNum}볼 ${strikeNum}스트라이크`;
+    } else if (ballNum === 0 && strikeNum !== 0) {
+        return `${strikeNum}스트라이크`;
+    } else if (ballNum !== 0 && strikeNum === 0) {
+        return `${ballNum}볼`;
+    } else return '낫싱';
+ }
 
  const computerRandomNumber = MissionUtils.Random.pickUniqueNumbersInRange(1, 10, 3).join("");
 
  export default function BaseballGame() {
      this.play = function (computerInputNumbers, userInputNumbers) {
-        return
+        computerInputNumbers = computerRandomNumber;
+         userInputNumbers = document.querySelector("#user-input").value.split("");
+         let [strikeCount, ballCount] = [0, 0];
+
+         userInputNumbers.forEach((v, i) => {
+
+             if (computerInputNumbers.includes(v) && computerInputNumbers.indexOf(v) === i) {
+                 strikeCount++;
+             } else if (computerInputNumbers.includes(v) && computerInputNumbers.indexOf(v) !== i) {
+                 ballCount++;
+             }
+         })
+
+         return gameResultPrint(strikeCount, ballCount);
      };
  }
 
@@ -47,6 +69,10 @@
             alert("다시 입력하세요");
             return
         }
+
+        const result = new currency().play();
+
+        console.log(result)
     })
   }
   inputNumber();

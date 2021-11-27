@@ -14,7 +14,7 @@
 // (ㅇ) 인덴트 depth가 3이 넘지 않도록 구현한다
 // (ㅇ) 함수는 한 가지 일만 하도록 최대한 작게 구현, 15라인 넘어가면 안됨
 // (ㅇ) import문을 이용해 스크립트를 모듈화하고 불러올 수 있게 만듬
-// (ㅇ) var 사용 금지
+// (ㅇ) var보다 let, const 사용
 
 function gameResult(strikeNum, ballNum){
     if (ballNum !== 0 && strikeNum !== 0) {

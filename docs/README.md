@@ -67,4 +67,4 @@
 - [x] 기능을 구현하기 전에 javascript-baseball-precourse/docs/README.md 파일에 구현할 기능 목록을 정리해 추가
 - [x] Git의 커밋 단위는 앞 단계에서 README.md 파일에 정리한 기능 목록 단위로 추가
 - AngularJS Commit Message Conventions 참고
-- [ ] 테스트 실행 통과
+- [x] 테스트 실행 통과

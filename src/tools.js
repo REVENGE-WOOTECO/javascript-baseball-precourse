@@ -2,10 +2,11 @@ export const createRandNum = () => {
   // 1~9 중 서로 다른 임의의 수 3개를 list of Number로 반환
   // Returns :
   //     newRandomNum (list of Number) : 힌트 (볼을 먼저쓰고 스트라이크를 뒤에 쓰기)
-  const newRandomNum = MissionUtils.Random.shuffle(
-    MissionUtils.Random.pickUniqueNumbersInRange(1, 9, 3)
-  );
-  return newRandomNum;
+  const newRandomNum = new Set();
+  while (newRandomNum.size < 3) {
+    newRandomNum.add(MissionUtils.Random.pickNumberInRange(1, 10));
+  }
+  return [...newRandomNum];
 };
 
 export const numToListOfNum = (num) => {
@@ -33,7 +34,7 @@ export const matchBalls = (standard, numArr) => {
   const strike = numArr.filter((num, idx) => num === standard[idx]).length;
 
   return ball && strike
-    ? `${ball}볼${strike}스트라이크`
+    ? `${ball}볼 ${strike}스트라이크`
     : ball
     ? `${ball}볼`
     : strike

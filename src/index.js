@@ -3,6 +3,7 @@ import {
   numToListOfNum,
   matchBalls,
   showGameResult,
+  checkValid,
 } from "./tools.js";
 
 const inputText = document.querySelector("#user-input");
@@ -30,10 +31,12 @@ export default function BaseballGame() {
     //     computerRandNum (Number) : 컴퓨터의 랜덤 값
     //     computerRandNum (Number) : 유저 입력 값
     // Returns :
-    //     Strings : 힌트 (볼을 먼저쓰고 스트라이크를 뒤에 쓰기)
+    //     result (Strings) : 힌트 (볼을 먼저쓰고 스트라이크를 뒤에 쓰기)
     const userInput = numToListOfNum(userInputNum);
-    const message = matchBalls(computerRandNum, userInput);
-    return message;
+    const result = checkValid(userInput)
+      ? matchBalls(computerRandNum, userInput)
+      : "";
+    return result;
   };
 
   // 게임 시작

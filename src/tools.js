@@ -58,3 +58,33 @@ export function showGameResult(hint, resultDiv, restartBtn) {
     resultDiv.innerHTML = hint;
   }
 }
+export const checkValid = (arr) => {
+  // list of Number의 유효성 검사를 하여 결과 반환
+  // Args :
+  //     arr (list of Number) : 검사 대상 [1,2,3] 형태의 배열
+
+  // Returns :
+  //     valid : 유효성 검사 결과 (true / false)
+
+  let valid = false;
+  let message = "";
+
+  if (arr.length === 0) {
+    message = "error code1: 입력값이 없습니다.";
+  } else if (arr.includes(NaN)) {
+    message = "error code2: 숫자가 아닙니다.";
+  } else if (arr.length < 3) {
+    message = `error code3: 자릿수(${arr.length})가 너무 짧습니다.`;
+  } else if (arr.length > 3) {
+    message = `error code4: 자릿수(${arr.length})가 너무 깁니다.`;
+  } else if (arr.includes(0)) {
+    message = `error code5: 1~9까지의 수를 입력해주세요`;
+  } else if ([...new Set(arr)].length < 3)
+    message = `error code6: 중복없이 입력해주세요`;
+  else {
+    valid = true;
+  }
+
+  if (valid === false) alert(message);
+  return valid;
+};

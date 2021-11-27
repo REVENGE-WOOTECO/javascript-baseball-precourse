@@ -14,40 +14,26 @@
 // 입력한 세 숫자에 따라 볼, 스트라이크, 낫싱 출력(볼이 스트라이크보다 앞에 출력)
 // 정답 화면 및 재시작 버튼 출력
 
-function gameResult(strikeNum, ballNum){
-    if (ballNum !== 0 && strikeNum !== 0) {
-        return `${ballNum}볼 ${strikeNum}스트라이크`;
-    } else if (ballNum === 0 && strikeNum !== 0) {
-        return `${strikeNum}스트라이크`;
-    } else if (ballNum !== 0 && strikeNum === 0) {
-        return `${ballNum}볼`;
-    } else return '낫싱';
- }
-
- const computerRandomNumber = MissionUtils.Random.pickUniqueNumbersInRange(1, 10, 3).join("");
 
  export default function BaseballGame() {
      this.play = function (computerInputNumbers, userInputNumbers) {
-         computerInputNumbers = computerRandomNumber;
-         userInputNumbers = document.querySelector("#user-input").value.split("");
-         let [strikeCount, ballCount] = [0, 0];
-
-         userInputNumbers.forEach((v, i) => {
-
-             if (computerInputNumbers.includes(v) && computerInputNumbers.indexOf(v) === i) {
-                 strikeCount++;
-             } else if (computerInputNumbers.includes(v) && computerInputNumbers.indexOf(v) !== i) {
-                 ballCount++;
-             }
-         })
-
-         return gameResult(strikeCount, ballCount);
+        return
      };
  }
 
   import currency from "./index.js";
-  
-  function App() {
+
+  function inputException(value){
+    if(value.length !== 3 || isNaN(value) || value.includes(0)){
+        return true;
+    }
+    else if([...new Set(value.split(""))].length !== value.length){
+        return true;
+    }
+    else false;
+  }
+
+  function inputNumber() {
     document.querySelector("#user-input-form").addEventListener("submit", (e) => {
           e.preventDefault();
     })
@@ -55,14 +41,10 @@ function gameResult(strikeNum, ballNum){
 
         let value = document.querySelector("#user-input").value;
 
-        if (value.length !== 3 || isNaN(value)) {
+        if (inputException(value)) {
             alert("다시 입력하세요");
             return
         }
-
-        const result = new currency().play();
-
-        console.log(result)
     })
   }
-  App();
+  inputNumber();

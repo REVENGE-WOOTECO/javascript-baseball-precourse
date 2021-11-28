@@ -8,7 +8,7 @@ class BaseballGame {
     const strikeStr = strikeNumbers === 0 ? '' : `${strikeNumbers}스트라이크`;
 
     if (strikeNumbers === 3) {
-      return '🎉 정답을 맞추셨습니다! 🎉';
+      return '정답';
     }
     if (strikeNumbers === 0 && ballNumbers === 0) {
       return '낫싱';
@@ -37,17 +37,28 @@ class BaseballGame {
   }
 }
 
+// init
 const baseballGame = new BaseballGame();
 const randomNumbers = MissionUtils.Random.pickUniqueNumbersInRange(1, 9, 3).map(
   x => x.toString(),
 );
-
 const submitBtn = document.getElementById('submit');
+const restartBtn = document.getElementById('game-restart-button');
+document.getElementById('game-restart').style.display = 'none';
 
 const playHandler = () => {
   const userInput = document.getElementById('user-input').value.split('');
   const result = baseballGame.play(randomNumbers, userInput);
-  document.getElementById('result').innerText = result;
+  if (result === '정답') {
+    document.getElementById('game-result-strings').innerText =
+      '🎉 정답을 맞추셨습니다! 🎉';
+    document.getElementById('game-restart').style.display = 'block';
+  } else {
+    document.getElementById('game-result-strings').innerText = result;
+  }
 };
 
+const restartHandler = () => {};
+
 submitBtn.addEventListener('click', playHandler);
+restartBtn.addEventListener('click', restartHandler);

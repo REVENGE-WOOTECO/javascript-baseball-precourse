@@ -1,7 +1,5 @@
 import { $, isValidUserInput } from "./utils.js";
 
-const initialInput = [];
-
 export default class BaseballGame {
   #userInput;
   #computerNumber;
@@ -9,10 +7,10 @@ export default class BaseballGame {
   ball;
 
   constructor() {
-    this.#userInput = [...initialInput];
-    this.#computerNumber = [...initialInput];
-    this.setEvent();
+    this.#userInput = [];
+    this.#computerNumber = [];
     this.getComputerNumber();
+    this.setEvent();
   }
 
   setEvent() {
@@ -50,9 +48,11 @@ export default class BaseballGame {
 
     while (true) {
       const randomNumber = MissionUtils.Random.pickNumberInRange(1, 9);
+
       if (!newComputerNumber.includes(randomNumber)) {
-        newComputerNumber.push(randomNumber);
+        newComputerNumber = [...newComputerNumber, randomNumber];
       }
+
       if (newComputerNumber.length === 3) break;
     }
 
@@ -76,12 +76,11 @@ export default class BaseballGame {
 
   showResult() {
     let result = "";
+
     if (this.strike === 0 && this.ball === 0) {
       result = "낫싱";
     }
-    if (this.strike === 3) {
-      result = "정답";
-    }
+
     if (this.strike > 0 || this.ball > 0) {
       result = `${this.strike}스트라이크 ${this.ball}볼`;
     }
@@ -101,15 +100,19 @@ export default class BaseballGame {
     this.getResult();
     this.showResult();
     const result = this.isEndGame();
-    console.log(this.#userInput, this.#computerNumber);
-    console.log(this.strike, this.ball);
+
     return result;
+  }
+
+  handleGameEnd() {
+    $("#result").innerHTML = "정답입니다. 🎉";
   }
 
   play(e) {
     e.preventDefault();
+
     if (this.playRound()) {
-      console.log("끝");
+      this.handleGameEnd();
     }
   }
 }

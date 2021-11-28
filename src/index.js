@@ -13,7 +13,10 @@
 // 출력
 // (ㅇ) 입력한 세 숫자에 따라 볼, 스트라이크, 낫싱 출력(볼이 스트라이크보다 앞에 출력)
 // (ㅇ) 정답 화면 및 재시작 버튼 출력
-function computerRandomNumber() {
+
+const computerNumber = computerRandomNumber();
+
+function computerRandomNumber () {
     let uniqueValueStack = [];
 
     while (uniqueValueStack.length < 3) {
@@ -26,14 +29,21 @@ function computerRandomNumber() {
     return uniqueValueStack.join('');
 }
 
-const computerNumber = computerRandomNumber();
+function gameResultPrint (strikeNum, ballNum) {
+    if (ballNum !== 0 && strikeNum !== 0) {
+        return `${ballNum}볼 ${strikeNum}스트라이크`;
+    } else if (ballNum === 0 && strikeNum !== 0) {
+        return `${strikeNum}스트라이크`;
+    } else if (ballNum !== 0 && strikeNum === 0) {
+        return `${ballNum}볼`;
+    } else return '낫싱';
+}
 
-export default function BaseballGame() {
+export default function BaseballGame () {
 
     this.play = function (computerInputNumbers, userInputNumbers) {
-        computerInputNumbers = computerNumber;
-        userInputNumbers = document.querySelector('#user-input').value.split('');
-        let [strikeCount, ballCount] = [0, 0];
+        let strikeCount = 0;
+        let ballCount = 0;
 
         userInputNumbers.forEach((v, i) => {
 
@@ -44,54 +54,33 @@ export default function BaseballGame() {
             }
         })
 
-        return gameResultPrint(strikeCount, ballCount);
+        return gameResultPrint(strikeCount, ballCount) // string형식으로 리턴;
     };
 }
 
+import BaseBallGame from './index.js';
 
-import currency from './index.js';
+function inputExceptionHandling (input) {
+    if (input.length !== 3 || isNaN(input)) {
+        return true;
+    } else if (input.includes(0) || input.includes(' ')) {
+        return true;
+    } else if ([...new Set(input.split(''))].length !== input.length) {
+        return true;
+    }
 
-function gameResultPrint(strikeNum, ballNum) {
-    if (ballNum !== 0 && strikeNum !== 0) {
-        return `${ballNum}볼 ${strikeNum}스트라이크`;
-    } else if (ballNum === 0 && strikeNum !== 0) {
-        return `${strikeNum}스트라이크`;
-    } else if (ballNum !== 0 && strikeNum === 0) {
-        return `${ballNum}볼`;
-    } else return '낫싱';
+    return false;
 }
 
-function inputException(value) {
-    if (value.length !== 3 || isNaN(value) || value.includes(0) || value.includes(' ')) {
-        return true;
-    } else if ([...new Set(value.split(''))].length !== value.length) {
-        return true;
-    } else false;
-}
-
-function windowNotRefresh() {
+function windowNotRefresh () {
     document.querySelector('#user-input-form').addEventListener('submit', (e) => {
         e.preventDefault();
     })
 }
 
-function inputNumber() {
-    document.querySelector('#submit').addEventListener('click', (e) => {
-
-        const result = new currency().play();
-        let value = document.querySelector('#user-input').value;
-
-        if (inputException(value)) {
-            alert('다시 입력하세요');
-            return
-        } else {
-            answerVerification(result);
-        }
-    })
-}
-
-function answerVerification(input) {
+function answerVerification (input) {
     let resultElement = document.querySelector('#result');
+
     if (input === '3스트라이크') {
         resultElement.innerHTML = "정답을 맞추셨습니다!<br>게임을 시작하시겠습니까?<button id='game-restart-button'>게임 재시작</button>";
         document.querySelector('#game-restart-button').addEventListener('click', (e) => {
@@ -103,5 +92,20 @@ function answerVerification(input) {
     }
 }
 
+function resultPrintWindow () {
+    document.querySelector('#submit').addEventListener('click', (e) => {
+
+        let inputValue = document.querySelector('#user-input').value;
+        let resultString = new BaseBallGame().play(computerNumber, inputValue.split(''));
+
+        if (inputExceptionHandling(inputValue)) {
+            alert('다시 입력하세요');
+            return
+        } else {
+            answerVerification(resultString);
+        }
+    })
+}
+
 windowNotRefresh();
-inputNumber();
+resultPrintWindow();

@@ -58,7 +58,9 @@ const playHandler = () => {
   }
 };
 
-const restartHandler = () => {};
+const restartHandler = () => {
+  window.location.reload();
+};
 
 submitBtn.addEventListener('click', playHandler);
 restartBtn.addEventListener('click', restartHandler);

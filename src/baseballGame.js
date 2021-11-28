@@ -38,6 +38,7 @@ export default class BaseballGame {
       .map((input) => Number(input));
 
     if (!isValidUserInput(newUserInputs)) {
+      $("#user-input").value = "";
       return;
     }
 
@@ -47,11 +48,12 @@ export default class BaseballGame {
   getComputerNumber() {
     let newComputerNumber = [];
 
-    while (newComputerNumber.length < 3) {
+    while (true) {
       const randomNumber = MissionUtils.Random.pickNumberInRange(1, 9);
       if (!newComputerNumber.includes(randomNumber)) {
         newComputerNumber.push(randomNumber);
       }
+      if (newComputerNumber.length === 3) break;
     }
 
     this.setComputerNumber(newComputerNumber);
@@ -61,15 +63,13 @@ export default class BaseballGame {
     let strike = 0;
     let ball = 0;
 
-    for (let i = 0; i < 3; i++) {
-      if (this.#computerNumber.indexOf(this.#userInput[i]) === i) {
+    [...this.#userInput].map((number, index) => {
+      if (this.#computerNumber.indexOf(number) === index) {
         strike++;
-        continue;
-      }
-      if (this.#computerNumber.includes(this.#userInput[i])) {
+      } else if (this.#computerNumber.includes(number)) {
         ball++;
       }
-    }
+    });
 
     this.setResult(strike, ball);
   }
@@ -88,12 +88,28 @@ export default class BaseballGame {
     $("#result").innerHTML = result;
   }
 
-  play(e) {
-    e.preventDefault();
+  isEndGame() {
+    if (this.strike === 3 && this.ball === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  playRound() {
     this.getUserInput();
     this.getResult();
     this.showResult();
+    const result = this.isEndGame();
     console.log(this.#userInput, this.#computerNumber);
     console.log(this.strike, this.ball);
+    return result;
+  }
+
+  play(e) {
+    e.preventDefault();
+    if (this.playRound()) {
+      console.log("끝");
+    }
   }
 }

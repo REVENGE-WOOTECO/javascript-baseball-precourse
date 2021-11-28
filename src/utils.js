@@ -4,8 +4,8 @@ export const $ = (selector) => document.querySelector(selector);
 
 export const isValidUserInput = (input) => {
   console.log(input);
-  if (input.includes(0)) {
-    alert("0을 포함");
+  if (input.length !== 3) {
+    alert(ERROR_MESSAGE.INPUT_AMOUNT);
     return false;
   }
 

@@ -66,7 +66,8 @@ export default class BaseballGame {
       x => input.indexOf(x) !== input.lastIndexOf(x),
     );
     const isThreeLength = input.length === 3;
-    if (isDuplicate || !isThreeLength) {
+    const isExistZero = input.some(x => x === '0');
+    if (isDuplicate || !isThreeLength || isExistZero) {
       return false;
     }
     return true;

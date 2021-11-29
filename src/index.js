@@ -1,11 +1,8 @@
-class BaseballGame {
+import {} from 'https://cdn.jsdelivr.net/npm/@woowacourse/mission-utils@1.0.1/dist/mission-utils.min.js';
+
+export default class BaseballGame {
   constructor() {
-    const [MIN, MAX, LEN] = [1, 9, 3];
-    this.randomNumbers = MissionUtils.Random.pickUniqueNumbersInRange(
-      MIN,
-      MAX,
-      LEN,
-    ).map(x => x.toString());
+    this.randomNumbers = this.getRandomNumbers();
     this.submitBtn = document.getElementById('submit');
     this.result = document.getElementById('result');
     this.input = document.getElementById('user-input');
@@ -18,9 +15,18 @@ class BaseballGame {
     this.handleSubmit();
   }
 
+  getRandomNumbers() {
+    const [MIN, MAX, LEN] = [1, 9, 3];
+    return MissionUtils.Random.pickUniqueNumbersInRange(MIN, MAX, LEN);
+  }
+
+  ElemOfArrToString(arr) {
+    return arr.map(el => el.toString());
+  }
+
   play(computerInputNumbers, userInputNumbers) {
-    const comInput = computerInputNumbers;
-    const userInput = userInputNumbers;
+    const comInput = this.ElemOfArrToString(computerInputNumbers);
+    const userInput = this.ElemOfArrToString(userInputNumbers);
     const ballNumbers = this.getBallNumbers(comInput, userInput);
     const strikeNumbers = this.getStrikeNumbers(comInput, userInput);
     const ballStr = ballNumbers === 0 ? '' : `${ballNumbers}볼 `;
@@ -72,16 +78,19 @@ class BaseballGame {
       if (this.isCorrectInput(input)) {
         this.showResult(this.play(this.randomNumbers, input));
       } else {
-        alert('잘못된 입력값입니다.');
+        window.alert('잘못된 입력값입니다.');
       }
     });
   }
 
   showResult(result) {
-    if (result === '정답' && !document.getElementById('restart-guide')) {
+    const restartGuideElem = document.getElementById('restart-guide');
+    const isCorrect = result === '정답';
+    if (isCorrect && !restartGuideElem) {
       this.createRestartMessage();
       this.createRestartButton();
-    } else if (result !== '정답') {
+      this.handleRestart();
+    } else if (!isCorrect) {
       this.result.innerHTML = result;
     }
   }
@@ -101,6 +110,21 @@ class BaseballGame {
     restartBtn.setAttribute('id', 'game-restart-button');
     restartBtn.innerText = '게임 재시작';
     this.restartElem.appendChild(restartBtn);
+  }
+
+  handleRestart() {
+    const restartBtn = document.getElementById('game-restart-button');
+    restartBtn.addEventListener('click', () => {
+      this.resetGame();
+    });
+  }
+
+  resetGame() {
+    this.randomNumbers = this.getRandomNumbers();
+    this.result.innerText = '';
+    this.input.value = '';
+    this.restartElem.remove();
+    console.log(this.randomNumbers);
   }
 }
 

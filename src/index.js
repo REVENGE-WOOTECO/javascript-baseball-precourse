@@ -14,98 +14,117 @@
 // (ㅇ) 입력한 세 숫자에 따라 볼, 스트라이크, 낫싱 출력(볼이 스트라이크보다 앞에 출력)
 // (ㅇ) 정답 화면 및 재시작 버튼 출력
 
-const computerNumber = computerRandomNumber();
+document.querySelector('#user-input-form').addEventListener('submit', e => {
+  e.preventDefault();
+});
 
-function computerRandomNumber () {
-    let uniqueValueStack = [];
+function returnGameResult(strikeNum, ballNum) {
+  if (ballNum !== 0 && strikeNum !== 0) {
+    return `${ballNum}볼 ${strikeNum}스트라이크`;
+  }
+  if (ballNum === 0 && strikeNum !== 0) {
+    return `${strikeNum}스트라이크`;
+  }
+  if (ballNum !== 0 && strikeNum === 0) {
+    return `${ballNum}볼`;
+  }
+  return '낫싱';
+}
 
-    while (uniqueValueStack.length < 3) {
-        let value = MissionUtils.Random.pickNumberInRange(1, 9);
-        if (!uniqueValueStack.includes(value)) {
-            uniqueValueStack.push(value);
-        }
+function play(computerInputNumbers, userInputNumbers) {
+  let strikeCount = 0;
+  let ballCount = 0;
+
+  userInputNumbers.forEach((v, i) => {
+    if (
+      computerInputNumbers.includes(v) &&
+      computerInputNumbers.indexOf(v) === i
+    ) {
+      strikeCount += 1;
+    } else if (
+      computerInputNumbers.includes(v) &&
+      computerInputNumbers.indexOf(v) !== i
+    ) {
+      ballCount += 1;
+    }
+  });
+
+  return returnGameResult(strikeCount, ballCount);
+}
+
+function handlingInputException(input) {
+  return (
+    input.length !== 3 ||
+    isNaN(input) ||
+    input.includes(0) ||
+    input.includes(' ') ||
+    [...new Set(input.split(''))].length !== input.length
+  );
+}
+
+function baseBallGame() {
+  const COMPUTER_NUMBER = {
+    MIN: 1,
+    MAX: 9,
+    LENGTH: 3,
+  };
+
+  function getComputerRandomNumber() {
+    const uniqueValues = new Set();
+    while (uniqueValues.size < COMPUTER_NUMBER.LENGTH) {
+      const value = MissionUtils.Random.pickNumberInRange(
+        COMPUTER_NUMBER.MIN,
+        COMPUTER_NUMBER.MAX,
+      );
+      if (!uniqueValues.has(value)) {
+        uniqueValues.add(value);
+      }
     }
 
-    return uniqueValueStack.join('');
-}
+    return [...uniqueValues].join('');
+  }
 
-function gameResultPrint (strikeNum, ballNum) {
-    if (ballNum !== 0 && strikeNum !== 0) {
-        return `${ballNum}볼 ${strikeNum}스트라이크`;
-    } else if (ballNum === 0 && strikeNum !== 0) {
-        return `${strikeNum}스트라이크`;
-    } else if (ballNum !== 0 && strikeNum === 0) {
-        return `${ballNum}볼`;
-    } else return '낫싱';
-}
+  const computerNumber = getComputerRandomNumber();
 
-export default function BaseballGame () {
+  function playGameAgain() {
+    const resultElement = document.querySelector('#result');
 
-    this.play = function (computerInputNumbers, userInputNumbers) {
-        let strikeCount = 0;
-        let ballCount = 0;
+    document.querySelector('#user-input').value = '';
+    resultElement.innerText = '';
 
-        userInputNumbers.forEach((v, i) => {
+    baseBallGame();
+  }
 
-            if (computerInputNumbers.includes(v) && computerInputNumbers.indexOf(v) === i) {
-                strikeCount++;
-            } else if (computerInputNumbers.includes(v) && computerInputNumbers.indexOf(v) !== i) {
-                ballCount++;
-            }
-        })
-
-        return gameResultPrint(strikeCount, ballCount) // string형식으로 리턴;
-    };
-}
-
-import BaseBallGame from './index.js';
-
-function inputExceptionHandling (input) {
-    if (input.length !== 3 || isNaN(input)) {
-        return true;
-    } else if (input.includes(0) || input.includes(' ')) {
-        return true;
-    } else if ([...new Set(input.split(''))].length !== input.length) {
-        return true;
-    }
-
-    return false;
-}
-
-function windowNotRefresh () {
-    document.querySelector('#user-input-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-    })
-}
-
-function answerVerification (input) {
-    let resultElement = document.querySelector('#result');
+  function answerVerification(input) {
+    const resultElement = document.querySelector('#result');
 
     if (input === '3스트라이크') {
-        resultElement.innerHTML = "정답을 맞추셨습니다!<br>게임을 시작하시겠습니까?<button id='game-restart-button'>게임 재시작</button>";
-        document.querySelector('#game-restart-button').addEventListener('click', (e) => {
-            window.location.reload();
+      resultElement.innerHTML =
+        "정답을 맞추셨습니다!<br>게임을 시작하시겠습니까?<button id='game-restart-button'>게임 재시작</button>";
+      document
+        .querySelector('#game-restart-button')
+        .addEventListener('click', () => {
+          playGameAgain();
         });
-
     } else {
-        resultElement.innerText = input;
+      resultElement.innerText = input;
     }
+  }
+
+  function printingResultOnWindow() {
+    document.querySelector('#submit').addEventListener('click', () => {
+      const inputValue = document.querySelector('#user-input').value;
+      const resultString = play(computerNumber, inputValue.split(''));
+
+      if (handlingInputException(inputValue)) {
+        alert('다시 입력하세요');
+      } else {
+        answerVerification(resultString);
+      }
+    });
+  }
+
+  printingResultOnWindow();
 }
 
-function resultPrintWindow () {
-    document.querySelector('#submit').addEventListener('click', (e) => {
-
-        let inputValue = document.querySelector('#user-input').value;
-        let resultString = new BaseBallGame().play(computerNumber, inputValue.split(''));
-
-        if (inputExceptionHandling(inputValue)) {
-            alert('다시 입력하세요');
-            return
-        } else {
-            answerVerification(resultString);
-        }
-    })
-}
-
-windowNotRefresh();
-resultPrintWindow();
+baseBallGame();

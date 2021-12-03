@@ -1,4 +1,4 @@
-export const getDistinctNums = (min, max, length) => {
+export const getDistinctNums = function (min, max, length) {
   // 1~9 중 서로 다른 임의의 수 3개를 list of Number로 반환
   // Returns :
   //     newRandomNum (list of Number) : 힌트 (볼을 먼저쓰고 스트라이크를 뒤에 쓰기)
@@ -9,7 +9,7 @@ export const getDistinctNums = (min, max, length) => {
   return [...newRandomNum];
 };
 
-export const numToListOfNum = (num) => {
+export const numToListOfNum = function (num) {
   // Number의 각 자리를 잘라서 list of Number 로 반환
   // Returns :
   //     listOfNum (list of Number) : [1,1,1] 과 같은 형태
@@ -19,7 +19,7 @@ export const numToListOfNum = (num) => {
   return listOfNum;
 };
 
-export const matchBalls = (standard, numArr) => {
+export const matchBalls = function (standard, numArr) {
   // standard과 numArr 배열을 비교하여 비교 정보 반환
   // Args :
   //     standard (list Of Number) : 기준 값
@@ -42,7 +42,7 @@ export const matchBalls = (standard, numArr) => {
     : "낫싱";
 };
 
-export function showGameResult(hint, resultDiv, restartBtn) {
+export const showGameResult = function (hint, resultDiv, restartBtn) {
   // hint에 따라 알맞은 결과 보여줌
   // Args :
   //     hint (Strings) : 기준 값
@@ -58,8 +58,8 @@ export function showGameResult(hint, resultDiv, restartBtn) {
   } else {
     resultDiv.innerHTML = hint;
   }
-}
-export const checkValid = (arr) => {
+};
+export const checkValid = function (arr) {
   // list of Number의 유효성 검사를 하여 결과 반환
   // Args :
   //     arr (list of Number) : 검사 대상 [1,2,3] 형태의 배열

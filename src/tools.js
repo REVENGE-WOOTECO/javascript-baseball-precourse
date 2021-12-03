@@ -1,10 +1,10 @@
-export const createRandNum = () => {
+export const getDistinctNums = (min, max, length) => {
   // 1~9 중 서로 다른 임의의 수 3개를 list of Number로 반환
   // Returns :
   //     newRandomNum (list of Number) : 힌트 (볼을 먼저쓰고 스트라이크를 뒤에 쓰기)
   const newRandomNum = new Set();
-  while (newRandomNum.size < 3) {
-    newRandomNum.add(MissionUtils.Random.pickNumberInRange(1, 10));
+  while (newRandomNum.size < length) {
+    newRandomNum.add(MissionUtils.Random.pickNumberInRange(min, max));
   }
   return [...newRandomNum];
 };
@@ -65,7 +65,7 @@ export const checkValid = (arr) => {
   //     arr (list of Number) : 검사 대상 [1,2,3] 형태의 배열
 
   // Returns :
-  //     valid : 유효성 검사 결과 (true / false)
+  //     object {valid, message} : 유효성 검사 결과 (true / false), error 메시지
 
   let valid = false;
   let message = "";
@@ -86,6 +86,5 @@ export const checkValid = (arr) => {
     valid = true;
   }
 
-  if (valid === false) alert(message);
-  return valid;
+  return { valid, message };
 };

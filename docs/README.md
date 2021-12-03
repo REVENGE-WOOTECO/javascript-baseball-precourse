@@ -75,17 +75,17 @@
 
 #### 공통
 
-- [ ] function 키워드와 화살표 함수 중 하나로 통일
+- [x] function 키워드와 화살표 함수 중 하나로 통일
 
 #### createRandNum()
 
-- [ ] 주석보다 함수명과 인자를 통해 역할을 드러내기
-- [ ] 상수를 의미있는 식별자로 표현하기 (LENGTH, MIN, MAX)
-- [ ] checkValid 함수가 한 가지 역할만 하도록 변경 → 결과 처리 부분은 따로 하도록
+- [x] 주석보다 함수명과 인자를 통해 역할을 드러내기
+- [x] 상수를 의미있는 식별자로 표현하기 (LENGTH, MIN, MAX)
+- [x] checkValid 함수가 한 가지 역할만 하도록 변경 → 결과 처리 부분은 따로 하도록
 - [ ] 중복 제거 로직 효율화 고민 필요
 
 ### src/index.js
 
-- [ ] console.log() 제거
-- [ ] class constructor안에서 이벤트 바인딩, Element 생성하도록 변경
-- [ ] class 객체 생성 후 시작함수 호출
+- [x] console.log() 제거
+- [x] class constructor안에서 이벤트 바인딩, Element 생성하도록 변경
+- [x] class 객체 생성 후 시작함수 호출

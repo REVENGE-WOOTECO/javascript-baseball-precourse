@@ -73,7 +73,8 @@ export default class BaseballGame {
   }
 
   handleSubmit() {
-    this.submitBtn.addEventListener('click', () => {
+    this.submitBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       const input = this.input.value.split('');
       if (this.isCorrectInput(input)) {
         this.showResult(this.play(this.computerNumbers, input));

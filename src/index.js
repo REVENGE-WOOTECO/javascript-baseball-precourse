@@ -1,13 +1,10 @@
-import {} from 'https://cdn.jsdelivr.net/npm/@woowacourse/mission-utils@1.0.1/dist/mission-utils.min.js';
-
 export default class BaseballGame {
   constructor() {
-    this.randomNumbers = this.getRandomNumbers();
+    this.computerNumbers = this.getRandomNumbers();
     this.submitBtn = document.getElementById('submit');
     this.result = document.getElementById('result');
     this.input = document.getElementById('user-input');
     this.init();
-    console.log(this.randomNumbers);
   }
 
   init() {
@@ -16,7 +13,9 @@ export default class BaseballGame {
   }
 
   getRandomNumbers() {
-    const [MIN, MAX, LEN] = [1, 9, 3];
+    const MIN = 1;
+    const MAX = 9;
+    const LEN = 3;
     return MissionUtils.Random.pickUniqueNumbersInRange(MIN, MAX, LEN);
   }
 
@@ -43,7 +42,7 @@ export default class BaseballGame {
 
   getBallNumbers(answer, input) {
     let ballNumbers = 0;
-    answer.map((el, i) => {
+    answer.forEach((el, i) => {
       if (el !== input[i] && input.includes(el)) {
         ballNumbers += 1;
       }
@@ -53,7 +52,7 @@ export default class BaseballGame {
 
   getStrikeNumbers(answer, input) {
     let strikeNumbers = 0;
-    answer.map((el, i) => {
+    answer.forEach((el, i) => {
       if (el === input[i]) {
         strikeNumbers += 1;
       }
@@ -65,9 +64,9 @@ export default class BaseballGame {
     const isDuplicate = input.some(
       x => input.indexOf(x) !== input.lastIndexOf(x),
     );
-    const isThreeLength = input.length === 3;
+    const isValidLength = input.length === 3;
     const isExistZero = input.some(x => x === '0');
-    if (isDuplicate || !isThreeLength || isExistZero) {
+    if (isDuplicate || !isValidLength || isExistZero) {
       return false;
     }
     return true;
@@ -77,7 +76,7 @@ export default class BaseballGame {
     this.submitBtn.addEventListener('click', () => {
       const input = this.input.value.split('');
       if (this.isCorrectInput(input)) {
-        this.showResult(this.play(this.randomNumbers, input));
+        this.showResult(this.play(this.computerNumbers, input));
       } else {
         window.alert('잘못된 입력값입니다.');
       }
@@ -89,14 +88,13 @@ export default class BaseballGame {
     const isCorrect = result === '정답';
     if (isCorrect && !restartGuideElem) {
       this.createRestartMessage();
-      this.createRestartButton();
       this.handleRestart();
-    } else if (!isCorrect) {
-      this.result.innerHTML = result;
     }
+    this.result.innerHTML = result;
   }
 
   createRestartMessage() {
+    // Create message
     this.result.innerText = '';
     const appElem = document.getElementById('app');
     this.restartElem = document.createElement('div');
@@ -104,9 +102,8 @@ export default class BaseballGame {
     this.restartElem.innerHTML = `<h3>🎉 정답을 맞추셨습니다! 🎉</h3>
     <span>게임을 새로 시작하시겠습니까?</span>`;
     appElem.appendChild(this.restartElem);
-  }
 
-  createRestartButton() {
+    // Create button
     const restartBtn = document.createElement('button');
     restartBtn.setAttribute('id', 'game-restart-button');
     restartBtn.innerText = '게임 재시작';
@@ -121,11 +118,10 @@ export default class BaseballGame {
   }
 
   resetGame() {
-    this.randomNumbers = this.getRandomNumbers();
+    this.computerNumbers = this.getRandomNumbers();
     this.result.innerText = '';
     this.input.value = '';
     this.restartElem.remove();
-    console.log(this.randomNumbers);
   }
 }
 

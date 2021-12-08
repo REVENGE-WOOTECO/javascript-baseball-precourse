@@ -65,9 +65,8 @@ export const checkValid = function (arr) {
   //     arr (list of Number) : 검사 대상 [1,2,3] 형태의 배열
 
   // Returns :
-  //     object {valid, message} : 유효성 검사 결과 (true / false), error 메시지
+  //     object message : 유효성 검사 결과 error 메시지
 
-  let valid = false;
   let message = "";
 
   if (arr.length === 0) {
@@ -82,9 +81,6 @@ export const checkValid = function (arr) {
     message = `error code5: 1~9까지의 수를 입력해주세요`;
   } else if ([...new Set(arr)].length < 3)
     message = `error code6: 중복없이 입력해주세요`;
-  else {
-    valid = true;
-  }
 
-  return { valid, message };
+  return message;
 };

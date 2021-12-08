@@ -57,10 +57,12 @@ export default class BaseballGame {
     // Returns :
     //     result (Strings) : 힌트 (볼을 먼저쓰고 스트라이크를 뒤에 쓰기)
     const userInput = numToListOfNum(userInputNum);
-    const { valid, message } = checkValid(userInput);
-    let result = "";
-    valid ? (result = matchBalls(computerRandNum, userInput)) : alert(message);
-    return result;
+    const error = checkValid(userInput);
+    if (error) {
+      alert(error);
+      return;
+    }
+    return `${matchBalls(computerRandNum, userInput)}`;
   };
 }
 
